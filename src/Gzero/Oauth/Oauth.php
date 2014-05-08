@@ -16,43 +16,45 @@ use OAuth\ServiceFactory;
  */
 class Oauth
 {
-    /**
-     * @var array
-     */
     protected $config = [];
-    /**
-     * @var \OAuth\ServiceFactory
-     */
     protected $serviceFactory;
+    /**
+     * @var LaravelSession
+     */
+    protected $storage;
 
     public function __construct()
     {
         $this->serviceFactory = new ServiceFactory();
+        $this->storage = App::make('oauth.storage');
     }
 
-    /**
-     * @param $service
-     * @param $url
-     * @return \OAuth\Common\Service\ServiceInterface
-     */
-    public function init($service, $url)
+    public function init($serviceName, $url)
     {
-        $this->loadConfig($service);
+        $this->loadConfig($serviceName);
         $credentials = new Credentials($this->config['key'], $this->config['secret'], $url);
         return $this->serviceFactory->createService(
-            $service,
+            $serviceName,
             $credentials,
-            new LaravelSession(App::make('session')),
+            $this->storage,
             $this->config['scope']
         );
-
     }
 
     /**
-     * @param $service
+     * @param $serviceName
      */
-    protected function loadConfig($service)
+    protected function loadConfig($serviceName)
     {
-        $this->config = Config::get('laravel-oauth::services.' . $service);
+        $this->config = Config::get('laravel-oauth::services.' . $serviceName);
     }
+
+    /**
+     * @return LaravelSession
+     */
+    protected function getStorage()
+    {
+        return $this->storage;
+    }
+
 }

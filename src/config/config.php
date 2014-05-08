@@ -14,7 +14,7 @@ return [
         'facebook' => [
             'key' => '',
             'secret' => '',
-            'scope' => []
+            'scope' => ['email']
         ],
         'github' => [
             'key' => '',
@@ -24,7 +24,7 @@ return [
         'google' => [
             'key' => '',
             'secret' => '',
-            'scope' => []
+            'scope' => ['email', 'profile']
         ],
         'linkedin' => [
             'key' => '',

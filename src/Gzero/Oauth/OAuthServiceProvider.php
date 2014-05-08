@@ -1,5 +1,6 @@
 <?php namespace Gzero\Oauth;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -24,9 +25,18 @@ class OAuthServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app['oauth'] = $this->app->share(function ($app) {
-            return new Oauth();
-        });
+        $this->app['oauth'] = $this->app->share(
+            function ($app) {
+                return new Oauth();
+            }
+        );
+
+        $this->app->singleton(
+            'oauth.storage',
+            function ($app) {
+                return new LaravelSession(App::make('session'));
+            }
+        );
     }
 
     /**
@@ -36,6 +46,6 @@ class OAuthServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return array();
+        return ['oauth', 'oauth.storage'];
     }
 }
