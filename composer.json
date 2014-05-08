@@ -1,0 +1,25 @@
+{
+    "name": "gzero/laravel-oauth",
+    "description": "Laravel 4 Oauth1/2 integration",
+    "keywords": ["laravel", "oauth", "php", "lusitanian"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adrian Skierniewski",
+            "email": "adrian.skierniewski@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3",
+        "lusitanian/oauth": "0.3.*"
+    },
+    "require-dev": {
+        "illuminate/support": "4.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gzero\\": "src/Gzero"
+        }
+    },
+    "minimum-stability": "dev"
+}
