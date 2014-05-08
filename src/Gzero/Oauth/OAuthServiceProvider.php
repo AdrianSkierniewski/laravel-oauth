@@ -24,7 +24,7 @@ class OAuthServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app['oauth'] = $this->app->singleton(function ($app) {
+        $this->app['oauth'] = $this->app->share(function ($app) {
             return new Oauth();
         });
     }

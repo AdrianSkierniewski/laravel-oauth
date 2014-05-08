@@ -1,7 +1,7 @@
 <?php namespace Gzero\Oauth;
 
+use Config;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\URL;
 use OAuth\Common\Consumer\Credentials;
 use OAuth\ServiceFactory;
 
@@ -28,12 +28,17 @@ class Oauth
     {
         $this->loadConfig($service);
         $credentials = new Credentials($this->config['key'], $this->config['secret'], $url);
-        return $this->serviceFactory->createService($service, $credentials, App::make('Session'), $this->config['scope']);
+        return $this->serviceFactory->createService(
+            $service,
+            $credentials,
+            new LaravelSession(App::make('session')),
+            $this->config['scope']
+        );
 
     }
 
     protected function loadConfig($service)
     {
-        $this->config = Config::get('laravel-auth::services.' . $service);
+        $this->config = Config::get('laravel-oauth::services.' . $service);
     }
 }

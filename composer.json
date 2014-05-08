@@ -14,11 +14,12 @@
         "lusitanian/oauth": "0.3.*"
     },
     "require-dev": {
-        "illuminate/support": "4.*"
+        "illuminate/support": "4.*",
+        "illuminate/session": "4.*"
     },
     "autoload": {
-        "psr-4": {
-            "Gzero\\": "src/Gzero"
+        "psr-0": {
+            "Gzero\\Oauth": "src/"
         }
     },
     "minimum-stability": "dev"

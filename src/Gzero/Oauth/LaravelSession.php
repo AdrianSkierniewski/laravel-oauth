@@ -1,5 +1,6 @@
 <?php namespace Gzero\Oauth;
 
+use Illuminate\Session\SessionManager;
 use Illuminate\Support\Facades\Session;
 use OAuth\Common\Storage\Exception\TokenNotFoundException;
 use OAuth\Common\Storage\TokenStorageInterface;
@@ -24,13 +25,13 @@ class LaravelSession implements TokenStorageInterface
     private $stateVariableName;
 
     /**
-     * @param \Illuminate\Support\Facades\Session $session
+     * @param \Illuminate\Session\SessionManager $session
      * @param bool $startSession
      * @param string $sessionVariableName
      * @param string $stateVariableName
      */
     public function __construct(
-        Session $session,
+        SessionManager $session,
         $startSession = true,
         $sessionVariableName = 'lusitanian_oauth_token',
         $stateVariableName = 'lusitanian_oauth_state'
