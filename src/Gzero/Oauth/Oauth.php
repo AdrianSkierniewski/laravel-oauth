@@ -42,19 +42,18 @@ class Oauth
     }
 
     /**
+     * @return LaravelSession
+     */
+    public function getStorage()
+    {
+        return $this->storage;
+    }
+
+    /**
      * @param $serviceName
      */
     protected function loadConfig($serviceName)
     {
         $this->config = Config::get('laravel-oauth::services.' . $serviceName);
     }
-
-    /**
-     * @return LaravelSession
-     */
-    protected function getStorage()
-    {
-        return $this->storage;
-    }
-
 }
