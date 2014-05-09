@@ -16,7 +16,13 @@ use OAuth\ServiceFactory;
  */
 class OAuth
 {
+    /**
+     * @var array
+     */
     protected $config = [];
+    /**
+     * @var \OAuth\ServiceFactory
+     */
     protected $serviceFactory;
     /**
      * @var LaravelSession
@@ -29,6 +35,11 @@ class OAuth
         $this->storage = App::make('oauth.storage');
     }
 
+    /**
+     * @param $serviceName
+     * @param $url
+     * @return \OAuth\Common\Service\ServiceInterface
+     */
     public function init($serviceName, $url)
     {
         $this->loadConfig($serviceName);
