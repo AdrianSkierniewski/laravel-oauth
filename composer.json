@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Gzero\\Oauth": "src/"
+            "Gzero\\OAuth": "src/"
         }
     },
     "minimum-stability": "dev"
