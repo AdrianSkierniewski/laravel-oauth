@@ -1,4 +1,4 @@
-<?php namespace Gzero\Oauth;
+<?php namespace Gzero\OAuth;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;

@@ -1,4 +1,4 @@
-<?php namespace Gzero\Oauth;
+<?php namespace Gzero\OAuth;
 
 use Illuminate\Session\SessionManager;
 use Illuminate\Support\Facades\Session;

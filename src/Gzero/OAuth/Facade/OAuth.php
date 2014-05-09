@@ -1,4 +1,4 @@
-<?php namespace Gzero\Oauth\Facade;
+<?php namespace Gzero\OAuth\Facade;
 
 use Illuminate\Support\Facades\Facade;
 
