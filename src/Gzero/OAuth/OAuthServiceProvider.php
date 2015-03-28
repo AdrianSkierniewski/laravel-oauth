@@ -1,6 +1,5 @@
 <?php namespace Gzero\OAuth;
 
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -8,14 +7,23 @@ use Illuminate\Support\ServiceProvider;
  * file that was distributed with this source code.
  *
  * Class OAuthServiceProvider
+ *
  * @author     Adrian Skierniewski <adrian.skierniewski@gmail.com>
  * @copyright  Copyright (c) 2014, Adrian Skierniewski
  */
-class OAuthServiceProvider extends ServiceProvider
-{
+class OAuthServiceProvider extends ServiceProvider {
+
     public function boot()
     {
-        $this->package('gzero/laravel-oauth');
+        $this->package('gzero/laravel-oauth', 'gzero-laravel-oauth');
+        $this->app['oauth'] = $this->app->share(
+            function ($app) {
+                return new OAuth(
+                    $this->app['config']->get('gzero-laravel-oauth::services'), // cfg
+                    new LaravelSession($this->app->make('session')) // session
+                );
+            }
+        );
     }
 
     /**
@@ -25,18 +33,7 @@ class OAuthServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app['oauth'] = $this->app->share(
-            function ($app) {
-                return new OAuth();
-            }
-        );
 
-        $this->app->singleton(
-            'oauth.storage',
-            function ($app) {
-                return new LaravelSession(App::make('session'));
-            }
-        );
     }
 
     /**
@@ -46,6 +43,6 @@ class OAuthServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['oauth', 'oauth.storage'];
+        return ['oauth'];
     }
 }

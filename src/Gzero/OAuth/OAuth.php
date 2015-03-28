@@ -1,7 +1,5 @@
 <?php namespace Gzero\OAuth;
 
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Config;
 use OAuth\Common\Consumer\Credentials;
 use OAuth\ServiceFactory;
 
@@ -10,12 +8,12 @@ use OAuth\ServiceFactory;
  * file that was distributed with this source code.
  *
  * Class Oauth
+ *
  * @package    Gzero\Oauth
  * @author     Adrian Skierniewski <adrian.skierniewski@gmail.com>
  * @copyright  Copyright (c) 2014, Adrian Skierniewski
  */
-class OAuth
-{
+class OAuth {
     /**
      * @var array
      */
@@ -29,26 +27,28 @@ class OAuth
      */
     protected $storage;
 
-    public function __construct()
+    public function __construct(Array $config, $storage)
     {
         $this->serviceFactory = new ServiceFactory();
-        $this->storage = App::make('oauth.storage');
+        $this->storage = $storage;
+        $this->config = $config;
     }
 
     /**
      * @param $serviceName
      * @param $url
+     *
      * @return \OAuth\Common\Service\ServiceInterface
      */
     public function init($serviceName, $url)
     {
-        $this->loadConfig($serviceName);
-        $credentials = new Credentials($this->config['key'], $this->config['secret'], $url);
+        $config = $this->loadConfig($serviceName);
+        $credentials = new Credentials($config['key'], $config['secret'], $url);
         return $this->serviceFactory->createService(
             $serviceName,
             $credentials,
             $this->storage,
-            $this->config['scope']
+            $config['scope']
         );
     }
 
@@ -61,10 +61,19 @@ class OAuth
     }
 
     /**
+     * Returns config for specific service
+     *
      * @param $serviceName
+     *
+     * @return
+     * @throws OAuthServiceException
      */
     protected function loadConfig($serviceName)
     {
-        $this->config = Config::get('laravel-oauth::services.' . $serviceName);
+        if (!empty($this->config[$serviceName])) {
+            return $this->config[$serviceName];
+        } else {
+            throw new OAuthServiceException('No configuration for ' . $serviceName . ' service');
+        }
     }
 }
